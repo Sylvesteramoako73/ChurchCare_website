@@ -11,3 +11,9 @@
   }
   #root { width: 100%; }
 }
+
+@layer utilities {
+  .bg-navy { background-color: #080c28; }
+  .text-purple-accent { color: #9b5de5; }
+  .border-purple-accent { border-color: #9b5de5; }
+}

@@ -1,61 +1,69 @@
 import { motion } from 'framer-motion';
-import { ArrowRight, CheckCircle } from 'lucide-react';
-
-const perks = ['No credit card required', 'Setup in 10 minutes', 'Cancel anytime'];
 
 export default function CTA() {
   return (
-    <section className="py-28 bg-gray-950 relative overflow-hidden">
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-gradient-radial from-violet-900/40 to-transparent rounded-full blur-3xl" />
-        <div className="absolute inset-0 opacity-[0.03]"
-          style={{ backgroundImage: 'radial-gradient(circle, #fff 1px, transparent 1px)', backgroundSize: '28px 28px' }} />
-      </div>
+    <section className="py-24" style={{ background: '#080c28' }}>
+      <div className="max-w-7xl mx-auto px-8">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          {/* Left */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+          >
+            <p className="text-2xl font-bold mb-4 text-white">
+              Ready to transform your church?
+            </p>
+            <p className="text-gray-400 text-sm leading-relaxed mb-8 max-w-md">
+              Join churches across Ghana using ChurchCare to manage their congregation,
+              track giving, and stay connected — all in one platform for just GHS 180/month.
+            </p>
+            <div className="flex flex-wrap gap-4">
+              <a
+                href="#pricing"
+                className="inline-flex items-center px-8 py-3.5 rounded-full text-white font-bold text-sm transition-opacity hover:opacity-90"
+                style={{ background: 'linear-gradient(135deg, #9b5de5, #7c3aed)' }}
+              >
+                Get started — GHS 180/mo
+              </a>
+              <a
+                href="https://chms-app.netlify.app"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center px-8 py-3.5 rounded-full font-bold text-sm border transition-colors hover:bg-white/10"
+                style={{ color: '#9b5de5', borderColor: '#9b5de5' }}
+              >
+                View live demo
+              </a>
+            </div>
+          </motion.div>
 
-      <div className="relative max-w-4xl mx-auto px-6 text-center">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          <span className="inline-block bg-violet-500/20 text-violet-300 text-xs font-bold px-4 py-2 rounded-full mb-8 tracking-widest uppercase border border-violet-500/30">
-            Ready to get started?
-          </span>
-
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight mb-6 leading-[1.08]">
-            Your congregation deserves{' '}
-            <span className="bg-gradient-to-r from-violet-400 to-indigo-400 bg-clip-text text-transparent">
-              better tools
-            </span>
-          </h2>
-
-          <p className="text-gray-400 text-lg mb-10 max-w-2xl mx-auto leading-relaxed">
-            Join hundreds of churches across Ghana using ChurchCare to grow their
-            congregations, strengthen their finances, and stay deeply connected with their members.
-          </p>
-
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
-            <a href="#pricing"
-              className="group flex items-center gap-2.5 bg-gradient-to-r from-violet-600 to-indigo-600 text-white px-8 py-4 rounded-2xl font-black text-base hover:opacity-90 transition-all shadow-2xl shadow-violet-900/50 hover:-translate-y-0.5">
-              Start for GHS 180/month
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </a>
-            <a href="https://chms-app.netlify.app" target="_blank" rel="noreferrer"
-              className="flex items-center gap-2 text-gray-300 hover:text-white font-semibold transition-colors border border-gray-700 hover:border-gray-500 px-8 py-4 rounded-2xl">
-              View live demo
-            </a>
-          </div>
-
-          <div className="flex flex-wrap items-center justify-center gap-6">
-            {perks.map(p => (
-              <div key={p} className="flex items-center gap-2 text-gray-500 text-sm">
-                <CheckCircle className="w-4 h-4 text-violet-400" />
-                {p}
+          {/* Right: info boxes */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, delay: 0.15 }}
+            className="grid grid-cols-2 gap-4"
+          >
+            {[
+              { label: 'Setup time', value: '< 10 mins' },
+              { label: 'Price per day', value: 'GHS 6' },
+              { label: 'Contract', value: 'None' },
+              { label: 'Members limit', value: 'Unlimited' },
+            ].map(item => (
+              <div
+                key={item.label}
+                className="rounded-2xl p-6 border"
+                style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.08)' }}
+              >
+                <p className="text-2xl font-black text-white mb-1">{item.value}</p>
+                <p className="text-xs text-gray-400">{item.label}</p>
               </div>
             ))}
-          </div>
-        </motion.div>
+          </motion.div>
+        </div>
       </div>
     </section>
   );
