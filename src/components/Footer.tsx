@@ -1,34 +1,58 @@
+const links = {
+  Product: ['Features', 'How it works', 'Pricing', 'Live demo'],
+  Company: ['About', 'Blog', 'Careers', 'Contact'],
+  Legal: ['Privacy Policy', 'Terms of Service', 'Cookie Policy'],
+};
+
 export default function Footer() {
   return (
-    <footer className="bg-gray-900 text-gray-400 py-14">
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="flex flex-col md:flex-row items-center justify-between gap-8 mb-10">
-          {/* Logo */}
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-violet-600 to-indigo-600 flex items-center justify-center">
-              <span className="text-white font-bold text-sm">C</span>
+    <footer className="bg-gray-950 border-t border-white/5">
+      <div className="max-w-7xl mx-auto px-6 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-10 mb-14">
+          {/* Brand */}
+          <div className="md:col-span-2">
+            <div className="flex items-center gap-2.5 mb-4">
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-violet-600 to-indigo-600 flex items-center justify-center">
+                <span className="text-white font-black text-xs">CC</span>
+              </div>
+              <span className="font-extrabold text-white text-lg tracking-tight">
+                Church<span className="text-violet-400">Care</span>
+              </span>
             </div>
-            <span className="font-bold text-white text-lg tracking-tight">ChurchCare</span>
+            <p className="text-gray-500 text-sm leading-relaxed max-w-xs">
+              The complete church management platform built for African churches.
+              Simple, powerful, and affordable.
+            </p>
+            <div className="flex items-center gap-2 mt-5">
+              <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+              <span className="text-xs text-gray-500">All systems operational</span>
+            </div>
           </div>
 
           {/* Links */}
-          <nav className="flex flex-wrap items-center justify-center gap-6 text-sm">
-            <a href="#features" className="hover:text-white transition-colors">Features</a>
-            <a href="#how" className="hover:text-white transition-colors">How it works</a>
-            <a href="#pricing" className="hover:text-white transition-colors">Pricing</a>
-            <a href="#testimonials" className="hover:text-white transition-colors">Testimonials</a>
-            <a href="https://chms-app.netlify.app" target="_blank" rel="noreferrer" className="hover:text-white transition-colors">Live demo</a>
-          </nav>
-
-          {/* Contact */}
-          <a href="mailto:info@beenhanced.co" className="text-sm hover:text-white transition-colors">
-            info@beenhanced.co
-          </a>
+          {Object.entries(links).map(([section, items]) => (
+            <div key={section}>
+              <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">{section}</p>
+              <ul className="space-y-3">
+                {items.map(item => (
+                  <li key={item}>
+                    <a href="#" className="text-sm text-gray-600 hover:text-gray-300 transition-colors">
+                      {item}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
 
-        <div className="border-t border-gray-800 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
-          <p>© {new Date().getFullYear()} ChurchCare. All rights reserved.</p>
-          <p className="text-gray-600">Built with care for African churches 🙏</p>
+        <div className="border-t border-white/5 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-xs text-gray-600">
+            © {new Date().getFullYear()} ChurchCare. All rights reserved.
+          </p>
+          <p className="text-xs text-gray-700">
+            Built with ❤️ for African churches · Ghana 🇬🇭
+          </p>
         </div>
       </div>
     </footer>

@@ -1,124 +1,153 @@
 import { motion } from 'framer-motion';
 import { Users, CalendarCheck, Banknote, MessageSquare, BarChart3, Heart, UserPlus, Shield } from 'lucide-react';
 
-const features = [
+const pillars = [
   {
     icon: Users,
-    title: 'Member Management',
-    desc: 'Maintain a complete directory of your congregation with profiles, photos, contact details, and spiritual milestones.',
-    color: 'bg-violet-50 text-violet-600',
-  },
-  {
-    icon: CalendarCheck,
-    title: 'Attendance Tracking',
-    desc: 'Record and monitor attendance for every service and event. Spot trends and follow up with absent members effortlessly.',
-    color: 'bg-blue-50 text-blue-600',
-  },
-  {
-    icon: Banknote,
-    title: 'Giving & Tithes',
-    desc: 'Log tithes, offerings, and pledges. Generate PDF receipts for members and monthly giving reports for leadership.',
-    color: 'bg-green-50 text-green-600',
+    label: 'Church Administration',
+    color: 'from-violet-500 to-violet-700',
+    bg: 'bg-violet-50 border-violet-100',
+    iconBg: 'bg-violet-600',
+    points: [
+      'Complete member directory with profiles & photos',
+      'Department and campus management',
+      'Role-based access for your entire team',
+      'Visitor follow-up & conversion tracking',
+    ],
   },
   {
     icon: MessageSquare,
-    title: 'WhatsApp & SMS',
-    desc: 'Send bulk WhatsApp messages and SMS to your congregation directly from the app. Birthday and anniversary greetings automated.',
-    color: 'bg-emerald-50 text-emerald-600',
+    label: 'Communication & Outreach',
+    color: 'from-indigo-500 to-indigo-700',
+    bg: 'bg-indigo-50 border-indigo-100',
+    iconBg: 'bg-indigo-600',
+    points: [
+      'Bulk WhatsApp & SMS messaging',
+      'Automated birthday & anniversary greetings',
+      'Prayer request management & follow-up',
+      'Pastoral care notes and visit tracking',
+    ],
   },
   {
-    icon: BarChart3,
-    title: 'Reports & Analytics',
-    desc: 'Beautiful reports on membership growth, attendance trends, and giving patterns — export to PDF with one click.',
-    color: 'bg-orange-50 text-orange-600',
-  },
-  {
-    icon: Heart,
-    title: 'Pastoral Care',
-    desc: 'Track prayer requests, pastoral visits, and care notes for members going through difficult seasons.',
-    color: 'bg-red-50 text-red-600',
-  },
-  {
-    icon: UserPlus,
-    title: 'Visitor Follow-up',
-    desc: 'Never lose a first-time visitor. Log their details, assign follow-up tasks, and track their journey to membership.',
-    color: 'bg-indigo-50 text-indigo-600',
-  },
-  {
-    icon: Shield,
-    title: 'Role-based Access',
-    desc: 'Control who sees what. Administrators, Pastors, Department Heads, and Data Entry clerks each get the right level of access.',
-    color: 'bg-gray-50 text-gray-600',
+    icon: Banknote,
+    label: 'Finance & Reporting',
+    color: 'from-blue-500 to-blue-700',
+    bg: 'bg-blue-50 border-blue-100',
+    iconBg: 'bg-blue-600',
+    points: [
+      'Tithe, offering & pledge recording',
+      'PDF receipts generated instantly',
+      'Monthly & annual giving reports',
+      'Attendance trends & growth analytics',
+    ],
   },
 ];
 
-const container = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.08 } },
-};
-
-const item = {
-  hidden: { opacity: 0, y: 24 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.5 } },
-};
+const allFeatures = [
+  { icon: Users, label: 'Member Profiles' },
+  { icon: CalendarCheck, label: 'Attendance' },
+  { icon: Banknote, label: 'Giving & Tithes' },
+  { icon: MessageSquare, label: 'WhatsApp & SMS' },
+  { icon: BarChart3, label: 'Reports & Analytics' },
+  { icon: Heart, label: 'Pastoral Care' },
+  { icon: UserPlus, label: 'Visitor Follow-up' },
+  { icon: Shield, label: 'Role-based Access' },
+];
 
 export default function Features() {
   return (
-    <section id="features" className="py-28 bg-gray-50/60">
-      <div className="max-w-6xl mx-auto px-6">
-        {/* Header */}
-        <div className="text-center mb-16">
-          <motion.p
+    <>
+      {/* Three pillars — inspired by Asoriba but much better */}
+      <section id="features" className="py-28 bg-white">
+        <div className="max-w-7xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
+              className="text-violet-600 font-bold text-sm uppercase tracking-widest mb-3">
+              Everything your church needs
+            </motion.p>
+            <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+              className="text-4xl sm:text-5xl font-black text-gray-950 tracking-tight mb-4">
+              One platform. Three superpowers.
+            </motion.h2>
+            <motion.p initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="text-gray-500 text-lg max-w-xl mx-auto">
+              ChurchCare covers every aspect of church management so you can focus on what matters — your people.
+            </motion.p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {pillars.map((p, i) => (
+              <motion.div
+                key={p.label}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: i * 0.12 }}
+                className={`rounded-3xl p-8 border-2 ${p.bg} hover:-translate-y-1 transition-transform duration-300`}
+              >
+                <div className={`w-14 h-14 rounded-2xl ${p.iconBg} flex items-center justify-center mb-6 shadow-lg`}>
+                  <p.icon className="w-7 h-7 text-white" />
+                </div>
+                <h3 className="text-xl font-black text-gray-900 mb-5">{p.label}</h3>
+                <ul className="space-y-3">
+                  {p.points.map(pt => (
+                    <li key={pt} className="flex items-start gap-3 text-sm text-gray-600">
+                      <div className="w-5 h-5 rounded-full bg-white shadow-sm border border-gray-200 flex items-center justify-center shrink-0 mt-0.5">
+                        <div className="w-1.5 h-1.5 rounded-full bg-violet-500" />
+                      </div>
+                      {pt}
+                    </li>
+                  ))}
+                </ul>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Dark product showcase section */}
+      <section className="py-28 bg-gray-950 relative overflow-hidden">
+        <div className="absolute inset-0 pointer-events-none">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[400px] bg-violet-900/20 rounded-full blur-3xl" />
+        </div>
+        <div className="relative max-w-7xl mx-auto px-6">
+          <div className="text-center mb-16">
+            <motion.p initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
+              className="text-violet-400 font-bold text-sm uppercase tracking-widest mb-3">
+              Built for modern churches
+            </motion.p>
+            <motion.h2 initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}
+              className="text-4xl sm:text-5xl font-black text-white tracking-tight mb-4">
+              Every feature you need, nothing you don't
+            </motion.h2>
+          </div>
+
+          <motion.div
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="text-violet-600 font-semibold text-sm uppercase tracking-widest mb-3"
+            transition={{ duration: 0.6 }}
+            className="grid grid-cols-2 sm:grid-cols-4 gap-4"
           >
-            Everything you need
-          </motion.p>
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-            className="text-4xl sm:text-5xl font-extrabold text-gray-900 tracking-tight mb-4"
-          >
-            One platform. Every ministry.
-          </motion.h2>
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="text-gray-500 text-lg max-w-xl mx-auto"
-          >
-            ChurchCare covers every aspect of church administration so your team can focus on ministry.
-          </motion.p>
+            {allFeatures.map((f, i) => (
+              <motion.div
+                key={f.label}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: i * 0.07 }}
+                className="bg-white/5 hover:bg-white/10 border border-white/10 hover:border-violet-500/40 rounded-2xl p-6 text-center transition-all duration-300 group cursor-default"
+              >
+                <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-violet-600/30 to-indigo-600/30 border border-violet-500/20 flex items-center justify-center mx-auto mb-4 group-hover:from-violet-600/50 group-hover:to-indigo-600/50 transition-all">
+                  <f.icon className="w-6 h-6 text-violet-300" />
+                </div>
+                <p className="text-sm font-bold text-gray-200">{f.label}</p>
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
-
-        {/* Grid */}
-        <motion.div
-          variants={container}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, amount: 0.2 }}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5"
-        >
-          {features.map(f => (
-            <motion.div
-              key={f.title}
-              variants={item}
-              className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300 group"
-            >
-              <div className={`w-11 h-11 rounded-xl ${f.color} flex items-center justify-center mb-4`}>
-                <f.icon className="w-5 h-5" />
-              </div>
-              <h3 className="font-bold text-gray-900 mb-2 text-sm">{f.title}</h3>
-              <p className="text-gray-500 text-xs leading-relaxed">{f.desc}</p>
-            </motion.div>
-          ))}
-        </motion.div>
-      </div>
-    </section>
+      </section>
+    </>
   );
 }
