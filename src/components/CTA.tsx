@@ -1,69 +1,56 @@
 import { motion } from 'framer-motion';
+import { ArrowRight } from 'lucide-react';
 
 export default function CTA() {
   return (
-    <section className="py-24" style={{ background: '#080c28' }}>
-      <div className="max-w-7xl mx-auto px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Left */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
-            <p className="text-2xl font-bold mb-4 text-white">
-              Ready to transform your church?
+    <section className="py-28" style={{ background: '#F8FAFC' }}>
+      <div className="max-w-7xl mx-auto px-6">
+        <motion.div
+          initial={{ opacity: 0, y: 28 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="relative rounded-3xl overflow-hidden"
+          style={{ background: 'linear-gradient(135deg, #1B2875 0%, #1E3A8A 55%, #2BA898 100%)', border: '1px solid rgba(43,168,152,0.3)' }}>
+          {/* Photo bg */}
+          <div className="absolute inset-0">
+            <img
+              src="/church-worship.jpg"
+              alt="Church community"
+              className="w-full h-full object-cover opacity-[0.07]"
+            />
+          </div>
+          {/* Glow */}
+          <div className="absolute top-0 right-0 w-96 h-96 rounded-full pointer-events-none"
+            style={{ background: 'radial-gradient(circle, rgba(43,168,152,0.2) 0%, transparent 70%)' }} />
+
+          <div className="relative z-10 p-12 sm:p-20 max-w-3xl">
+            <p className="text-sm font-bold uppercase tracking-widest mb-5" style={{ color: 'rgba(167,243,208,0.9)' }}>
+              Ready to get started?
             </p>
-            <p className="text-gray-400 text-sm leading-relaxed mb-8 max-w-md">
-              Join churches across Ghana using ChurchCare to manage their congregation,
-              track giving, and stay connected — all in one platform for just GHS 180/month.
+            <h2 className="text-4xl sm:text-5xl font-black text-white leading-tight mb-6">
+              Transform how your<br />church operates.
+            </h2>
+            <p className="text-lg leading-relaxed mb-10 max-w-xl" style={{ color: 'rgba(255,255,255,0.75)' }}>
+              Join 120+ churches across Ghana. Setup takes under 10 minutes.
+              Cancel anytime. No contracts. Plans from GHS 200 per month.
             </p>
             <div className="flex flex-wrap gap-4">
-              <a
-                href="#pricing"
-                className="inline-flex items-center px-8 py-3.5 rounded-full text-white font-bold text-sm transition-opacity hover:opacity-90"
-                style={{ background: 'linear-gradient(135deg, #9b5de5, #7c3aed)' }}
-              >
-                Get started — GHS 180/mo
+              <a href="#pricing"
+                className="inline-flex items-center gap-2 px-8 py-4 rounded-full font-black text-sm transition-opacity hover:opacity-90 shadow-lg"
+                style={{ background: '#ffffff', color: '#1B2875' }}>
+                See pricing plans <ArrowRight className="w-4 h-4" />
               </a>
-              <a
-                href="https://chms-app.netlify.app"
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center px-8 py-3.5 rounded-full font-bold text-sm border transition-colors hover:bg-white/10"
-                style={{ color: '#9b5de5', borderColor: '#9b5de5' }}
-              >
+              <a href="https://chms-app.netlify.app" target="_blank" rel="noreferrer"
+                className="inline-flex items-center px-8 py-4 rounded-full font-bold text-sm border transition-all"
+                style={{ color: 'rgba(255,255,255,0.85)', borderColor: 'rgba(255,255,255,0.3)' }}
+                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.1)'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}>
                 View live demo
               </a>
             </div>
-          </motion.div>
-
-          {/* Right: info boxes */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.15 }}
-            className="grid grid-cols-2 gap-4"
-          >
-            {[
-              { label: 'Setup time', value: '< 10 mins' },
-              { label: 'Price per day', value: 'GHS 6' },
-              { label: 'Contract', value: 'None' },
-              { label: 'Members limit', value: 'Unlimited' },
-            ].map(item => (
-              <div
-                key={item.label}
-                className="rounded-2xl p-6 border"
-                style={{ background: 'rgba(255,255,255,0.04)', borderColor: 'rgba(255,255,255,0.08)' }}
-              >
-                <p className="text-2xl font-black text-white mb-1">{item.value}</p>
-                <p className="text-xs text-gray-400">{item.label}</p>
-              </div>
-            ))}
-          </motion.div>
-        </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );

@@ -1,29 +1,26 @@
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import StatsBar from './components/StatsBar';
+import LogoBar from './components/LogoBar';
 import Features from './components/Features';
-import Screenshots from './components/Screenshots';
-import UseCases from './components/UseCases';
 import HowItWorks from './components/HowItWorks';
+import Community from './components/Community';
 import Pricing from './components/Pricing';
 import Testimonials from './components/Testimonials';
 import FAQ from './components/FAQ';
 import Contact from './components/Contact';
 import CTA from './components/CTA';
 import Footer from './components/Footer';
-import FloatingDemo from './components/FloatingDemo';
 
 export default function App() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen" style={{ background: '#ffffff' }}>
       <Navbar />
       <main>
         <Hero />
-        <StatsBar />
+        <LogoBar />
         <Features />
-        <Screenshots />
-        <UseCases />
         <HowItWorks />
+        <Community />
         <Pricing />
         <Testimonials />
         <FAQ />
@@ -31,7 +28,6 @@ export default function App() {
         <CTA />
       </main>
       <Footer />
-      <FloatingDemo />
     </div>
   );
 }

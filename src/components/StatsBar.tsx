@@ -2,13 +2,13 @@ import { useEffect, useRef, useState } from 'react';
 import { motion } from 'framer-motion';
 
 const stats = [
-  { value: 120, suffix: '+', label: 'Churches using ChurchCare' },
-  { value: 15000, suffix: '+', label: 'Members managed' },
-  { value: 500, prefix: 'GHS ', suffix: 'K+', label: 'Tithes recorded' },
-  { value: 99.9, suffix: '%', label: 'Platform uptime' },
+  { value: 120, suffix: '+', label: 'Churches using ChurchCare', color: '#7C3AED' },
+  { value: 15000, suffix: '+', label: 'Members managed', color: '#4F46E5' },
+  { value: 500, prefix: 'GHS ', suffix: 'K+', label: 'Tithes recorded', color: '#0EA5E9' },
+  { value: 99.9, suffix: '%', label: 'Platform uptime', color: '#10B981' },
 ];
 
-function Counter({ value, prefix = '', suffix = '' }: { value: number; prefix?: string; suffix?: string }) {
+function Counter({ value, prefix = '', suffix = '', color }: { value: number; prefix?: string; suffix?: string; color: string }) {
   const [count, setCount] = useState(0);
   const ref = useRef<HTMLSpanElement>(null);
   const started = useRef(false);
@@ -19,7 +19,7 @@ function Counter({ value, prefix = '', suffix = '' }: { value: number; prefix?: 
     const observer = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting && !started.current) {
         started.current = true;
-        const duration = 1500;
+        const duration = 1400;
         const steps = 60;
         const increment = value / steps;
         let current = 0;
@@ -39,13 +39,17 @@ function Counter({ value, prefix = '', suffix = '' }: { value: number; prefix?: 
   }, [value]);
 
   const display = Number.isInteger(value) ? Math.round(count) : count.toFixed(1);
-  return <span ref={ref}>{prefix}{display}{suffix}</span>;
+  return (
+    <span ref={ref} style={{ color }}>
+      {prefix}{display}{suffix}
+    </span>
+  );
 }
 
 export default function StatsBar() {
   return (
-    <section className="py-14 border-y" style={{ background: '#080c28', borderColor: 'rgba(255,255,255,0.07)' }}>
-      <div className="max-w-7xl mx-auto px-8">
+    <section className="py-16 border-y border-slate-100" style={{ background: '#FAFAFA' }}>
+      <div className="max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
           {stats.map((s, i) => (
             <motion.div
@@ -56,10 +60,10 @@ export default function StatsBar() {
               transition={{ delay: i * 0.1 }}
               className="text-center"
             >
-              <p className="text-3xl font-black text-white mb-1">
-                <Counter value={s.value} prefix={s.prefix} suffix={s.suffix} />
+              <p className="text-4xl font-black mb-1">
+                <Counter value={s.value} prefix={s.prefix} suffix={s.suffix} color={s.color} />
               </p>
-              <p className="text-xs text-gray-400">{s.label}</p>
+              <p className="text-sm text-slate-500 font-medium">{s.label}</p>
             </motion.div>
           ))}
         </div>
