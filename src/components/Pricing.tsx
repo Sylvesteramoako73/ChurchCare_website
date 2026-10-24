@@ -20,7 +20,10 @@ declare global {
   }
 }
 
-const PAYSTACK_KEY = import.meta.env.VITE_PAYSTACK_PUBLIC_KEY as string ?? '';
+// Live public key — safe to ship in the browser. An env var overrides it if set.
+const PAYSTACK_KEY =
+  (import.meta.env.VITE_PAYSTACK_PUBLIC_KEY as string | undefined) ||
+  'pk_live_5166af2bfcf7459a95957a7a4d2592c76912ca40';
 
 /* ── Billing periods (paid upfront for the whole period) ─────────── */
 const periods = [
