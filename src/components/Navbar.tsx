@@ -33,8 +33,8 @@ export default function Navbar() {
         <a href="#" className="flex items-center gap-2.5">
           <LogoIcon size={34} />
           <div className="flex flex-col leading-none">
-            <span className="font-black text-lg tracking-tight" style={{ color: '#1B2875' }}>
-              Faith <span style={{ color: '#2BA898' }}>Church</span><span style={{ color: '#7B4FBE' }}>Care</span>
+            <span className="font-black text-lg tracking-tight" style={{ color: '#011F4E' }}>
+              Faith <span style={{ color: '#011F4E' }}>Church</span><span style={{ color: '#C98A2E' }}>Care</span>
             </span>
           </div>
         </a>

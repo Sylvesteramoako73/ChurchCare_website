@@ -7,12 +7,14 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-12">
           <div className="md:col-span-2">
             <div className="flex items-center gap-2.5 mb-4">
-              <LogoIcon size={36} />
+              <div className="rounded-lg p-1" style={{ background: '#ffffff' }}>
+                <LogoIcon size={32} />
+              </div>
               <div className="flex flex-col leading-none">
                 <span className="font-black text-lg">
                   <span style={{ color: '#ffffff' }}>Faith </span>
-                  <span style={{ color: '#2BA898' }}>Church</span>
-                  <span style={{ color: '#7B4FBE' }}>Care</span>
+                  <span style={{ color: '#ffffff' }}>Church</span>
+                  <span style={{ color: '#D59D3B' }}>Care</span>
                 </span>
                 <span className="text-xs tracking-widest uppercase mt-0.5" style={{ color: 'rgba(255,255,255,0.3)' }}>
                   Manage. Serve. Grow. Together.
