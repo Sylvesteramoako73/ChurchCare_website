@@ -368,7 +368,7 @@ export default function ProductShowcase() {
                 className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-white font-bold text-sm transition-all hover:opacity-90 hover:scale-105"
                 style={{ background: `linear-gradient(135deg, ${tab.color}, ${tab.color}BB)` }}
               >
-                Get access — GHS 180/mo
+                Get access — from GHS 200/mo
                 <ArrowRight className="w-4 h-4" />
               </a>
             </div>

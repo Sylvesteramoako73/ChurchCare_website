@@ -124,7 +124,7 @@ export default function Hero() {
               style={{ color: C.muted }}>
               Manage members, track giving, send WhatsApp broadcasts, and generate reports —
               all in one simple platform built for African churches.
-              Starting at <span className="font-bold" style={{ color: C.navy }}>GHS 200/month</span>.
+              Starting at <span className="font-bold" style={{ color: C.navy }}>GHS 200/month</span>, billed every 3 months.
             </motion.p>
 
             <motion.div

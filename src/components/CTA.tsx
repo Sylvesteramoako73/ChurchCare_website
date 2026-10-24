@@ -33,7 +33,7 @@ export default function CTA() {
             </h2>
             <p className="text-lg leading-relaxed mb-10 max-w-xl" style={{ color: 'rgba(255,255,255,0.75)' }}>
               Join 120+ churches across Ghana. Setup takes under 10 minutes.
-              Cancel anytime. No contracts. Plans from GHS 200 per month.
+              Cancel anytime. No contracts. Plans from GHS 600 every 3 months.
             </p>
             <div className="flex flex-wrap gap-4">
               <a href="#pricing"

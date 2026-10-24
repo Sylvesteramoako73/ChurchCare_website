@@ -89,7 +89,7 @@ export default function Navbar() {
               <a href="#pricing"
                 className="text-center px-6 py-3 rounded-full text-white text-sm font-bold mt-2"
                 style={{ background: '#1B2875' }}>
-                Get started — from GHS 200/mo
+                Get started — from GHS 600 / 3 months
               </a>
             </nav>
           </motion.div>

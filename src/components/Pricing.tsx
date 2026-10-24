@@ -22,11 +22,24 @@ declare global {
 
 const PAYSTACK_KEY = import.meta.env.VITE_PAYSTACK_PUBLIC_KEY as string ?? '';
 
+/* ── Billing periods (paid upfront for the whole period) ─────────── */
+const periods = [
+  { key: '3m', label: '3 months', months: 3, discount: 0 },
+  { key: '6m', label: '6 months', months: 6, discount: 0 },
+  { key: '1y', label: '1 year', months: 12, discount: 0 },
+] as const;
+
+type Period = (typeof periods)[number];
+
+/** Total charged for a plan over a billing period, in GHS */
+const periodPrice = (monthly: number, period: Period) =>
+  Math.round(monthly * period.months * (1 - period.discount / 100));
+
 /* ── Plan definitions ─────────────────────────────────────────────── */
 const plans = [
   {
     name: 'Starter',
-    price: 200,
+    monthly: 200,
     desc: 'Perfect for small churches getting organised.',
     color: '#2BA898',
     headerBg: '#FFFFFF',
@@ -46,7 +59,7 @@ const plans = [
   },
   {
     name: 'Growth',
-    price: 350,
+    monthly: 350,
     desc: 'For growing churches that need more reach.',
     color: '#ffffff',
     headerBg: '#1B2875',
@@ -67,7 +80,7 @@ const plans = [
   },
   {
     name: 'Pro',
-    price: 500,
+    monthly: 500,
     desc: 'Unlimited scale for large & multi-campus churches.',
     color: '#7B4FBE',
     headerBg: '#FFFFFF',
@@ -91,11 +104,14 @@ const plans = [
 /* ── Email-capture modal ──────────────────────────────────────────── */
 function PayModal({
   plan,
+  period,
   onClose,
 }: {
   plan: (typeof plans)[0];
+  period: Period;
   onClose: () => void;
 }) {
+  const total = periodPrice(plan.monthly, period);
   const [email, setEmail] = useState('');
   const [name, setName] = useState('');
   const [paid, setPaid] = useState(false);
@@ -105,6 +121,7 @@ function PayModal({
   const pay = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!email) return setError('Please enter your email address.');
+    if (!PAYSTACK_KEY) return setError('Online payment is not set up yet. Please contact us to subscribe.');
     if (!window.PaystackPop) return setError('Payment service unavailable. Please refresh the page.');
 
     setLoading(true);
@@ -113,10 +130,10 @@ function PayModal({
     const handler = window.PaystackPop.setup({
       key: PAYSTACK_KEY,
       email,
-      amount: plan.price * 100, // convert GHS → pesewas
+      amount: total * 100, // convert GHS → pesewas
       currency: 'GHS',
-      ref: `FCC-${plan.name.toUpperCase()}-${Date.now()}`,
-      metadata: { plan: plan.name, church_name: name },
+      ref: `FCC-${plan.name.toUpperCase()}-${period.key.toUpperCase()}-${Date.now()}`,
+      metadata: { plan: plan.name, billing_period: period.label, months: period.months, church_name: name },
       callback(res) {
         console.log('Payment successful:', res.reference);
         setLoading(false);
@@ -150,9 +167,10 @@ function PayModal({
           style={{ borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
           <div>
             <p className="text-xs font-bold uppercase tracking-widest mb-1" style={{ color: '#2BA898' }}>
-              {plan.name} Plan
+              {plan.name} Plan · {period.label}
             </p>
-            <p className="text-3xl font-black" style={{ color: '#1B2875' }}>GHS {plan.price}<span className="text-base font-semibold text-slate-400">/mo</span></p>
+            <p className="text-3xl font-black" style={{ color: '#1B2875' }}>GHS {total.toLocaleString()}<span className="text-base font-semibold text-slate-400"> / {period.label}</span></p>
+            <p className="text-xs text-slate-400 mt-1">Works out to GHS {Math.round(total / period.months)}/month</p>
           </div>
           <button onClick={onClose} className="p-2 rounded-full hover:bg-slate-100 transition-colors">
             <X className="w-5 h-5 text-slate-400" />
@@ -225,7 +243,7 @@ function PayModal({
                 disabled={loading}
                 className="w-full py-4 rounded-2xl font-black text-sm text-white transition-opacity hover:opacity-90 disabled:opacity-60 mt-2"
                 style={{ background: '#1B2875' }}>
-                {loading ? 'Opening payment…' : `Pay GHS ${plan.price} with Paystack`}
+                {loading ? 'Opening payment…' : `Pay GHS ${total.toLocaleString()} with Paystack`}
               </button>
 
               <p className="text-center text-xs text-slate-400">
@@ -242,6 +260,7 @@ function PayModal({
 /* ── Main section ─────────────────────────────────────────────────── */
 export default function Pricing() {
   const [activePlan, setActivePlan] = useState<(typeof plans)[0] | null>(null);
+  const [period, setPeriod] = useState<Period>(periods[0]);
 
   return (
     <section id="pricing" className="py-28" style={{ background: '#F8FAFC' }}>
@@ -274,8 +293,29 @@ export default function Pricing() {
             transition={{ delay: 0.18 }}
             className="text-lg leading-relaxed"
             style={{ color: 'rgba(15,23,42,0.55)' }}>
-            No hidden fees. No long-term contracts. Upgrade or cancel anytime.
+            No hidden fees. Pay every 3 months, 6 months or once a year.
           </motion.p>
+
+          {/* Billing period switch */}
+          <div className="inline-flex mt-8 p-1 rounded-full border bg-white"
+            style={{ borderColor: 'rgba(0,0,0,0.08)' }}>
+            {periods.map(p => (
+              <button
+                key={p.key}
+                onClick={() => setPeriod(p)}
+                className="px-5 py-2 rounded-full text-sm font-bold transition-colors"
+                style={period.key === p.key
+                  ? { background: '#1B2875', color: '#ffffff' }
+                  : { color: 'rgba(15,23,42,0.55)' }}>
+                {p.label}
+                {p.discount > 0 && (
+                  <span className="ml-1.5 text-xs" style={{ color: period.key === p.key ? '#FCD34D' : '#2BA898' }}>
+                    −{p.discount}%
+                  </span>
+                )}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Cards */}
@@ -314,11 +354,15 @@ export default function Pricing() {
                     style={{ color: plan.textLight ? 'rgba(255,255,255,0.55)' : 'rgba(15,23,42,0.45)' }}>GHS</span>
                   <span className="text-5xl font-black"
                     style={{ color: plan.textLight ? '#ffffff' : '#0F172A' }}>
-                    {plan.price}
+                    {periodPrice(plan.monthly, period).toLocaleString()}
                   </span>
                   <span className="mb-2 text-sm"
-                    style={{ color: plan.textLight ? 'rgba(255,255,255,0.5)' : 'rgba(15,23,42,0.4)' }}>/month</span>
+                    style={{ color: plan.textLight ? 'rgba(255,255,255,0.5)' : 'rgba(15,23,42,0.4)' }}>/ {period.label}</span>
                 </div>
+                <p className="text-xs mb-2"
+                  style={{ color: plan.textLight ? 'rgba(255,255,255,0.5)' : 'rgba(15,23,42,0.4)' }}>
+                  GHS {Math.round(periodPrice(plan.monthly, period) / period.months)}/month, billed {period.months === 12 ? 'yearly' : `every ${period.months} months`}
+                </p>
                 <p className="text-sm mb-6"
                   style={{ color: plan.textLight ? 'rgba(255,255,255,0.6)' : 'rgba(15,23,42,0.5)' }}>
                   {plan.desc}
@@ -373,7 +417,7 @@ export default function Pricing() {
       {/* Payment modal */}
       <AnimatePresence>
         {activePlan && (
-          <PayModal plan={activePlan} onClose={() => setActivePlan(null)} />
+          <PayModal plan={activePlan} period={period} onClose={() => setActivePlan(null)} />
         )}
       </AnimatePresence>
     </section>
