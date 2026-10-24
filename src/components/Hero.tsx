@@ -132,10 +132,10 @@ export default function Hero() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.32 }}
               className="flex items-center gap-4 flex-wrap mb-14">
-              <a href="#pricing"
+              <a href="https://app.churchcare.online" target="_blank" rel="noreferrer"
                 className="inline-flex items-center gap-2 px-8 py-4 rounded-full text-white font-bold text-base transition-opacity hover:opacity-90"
                 style={{ background: '#1B2875', boxShadow: '0 8px 24px rgba(27,40,117,0.25)' }}>
-                Get started free <ArrowRight className="w-4 h-4" />
+                Start 14-day free trial <ArrowRight className="w-4 h-4" />
               </a>
               <a href="https://app.churchcare.online" target="_blank" rel="noreferrer"
                 className="flex items-center gap-3 font-semibold text-base transition-colors"

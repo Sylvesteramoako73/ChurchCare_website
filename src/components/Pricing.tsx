@@ -136,15 +136,11 @@ function PayModal({
       amount: total * 100, // convert GHS → pesewas
       currency: 'GHS',
       ref: `FCC-${plan.name.toUpperCase()}-${period.key.toUpperCase()}-${Date.now()}`,
-      metadata: { plan: plan.name, billing_period: period.label, months: period.months, church_name: name },
-      callback(res) {
-        console.log('Payment successful:', res.reference);
+      // The app's webhook reads plan + months to activate the church whose admin uses this email
+      metadata: { plan: plan.name, billing_period: period.label, months: period.months, church_name: name, source: 'website' },
+      callback() {
         setLoading(false);
         setPaid(true);
-        // Redirect to the app after a short moment so the user sees the success screen
-        setTimeout(() => {
-          window.location.href = 'https://app.churchcare.online';
-        }, 2500);
       },
       onClose() {
         setLoading(false);
@@ -193,7 +189,8 @@ function PayModal({
               <p className="text-xl font-black mb-2" style={{ color: '#1B2875' }}>Payment Successful! 🎉</p>
               <p className="text-sm text-slate-500 mb-6">
                 Welcome to Faith ChurchCare.<br />
-                Taking you to the app now…
+                Sign up or log in with <strong>{email}</strong> and your {plan.name} plan
+                ({period.label}) will be activated automatically.
               </p>
               <a
                 href="https://app.churchcare.online"
@@ -299,7 +296,7 @@ export default function Pricing() {
             transition={{ delay: 0.18 }}
             className="text-lg leading-relaxed"
             style={{ color: 'rgba(15,23,42,0.55)' }}>
-            No hidden fees. Pay every 3 months, 6 months or once a year.
+            Every plan starts with a 14-day free trial. Then pay every 3 months, 6 months or once a year.
           </motion.p>
 
           {/* Billing period switch */}
@@ -386,6 +383,11 @@ export default function Pricing() {
                   }>
                   Get started
                 </button>
+                <a href="https://app.churchcare.online" target="_blank" rel="noreferrer"
+                  className="block text-center text-xs font-semibold mt-3 hover:underline"
+                  style={{ color: plan.textLight ? 'rgba(255,255,255,0.7)' : 'rgba(15,23,42,0.5)' }}>
+                  or start a 14-day free trial →
+                </a>
               </div>
 
               {/* Features list */}
