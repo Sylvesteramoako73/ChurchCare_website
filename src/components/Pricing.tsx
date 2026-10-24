@@ -24,9 +24,9 @@ const PAYSTACK_KEY = import.meta.env.VITE_PAYSTACK_PUBLIC_KEY as string ?? '';
 
 /* ── Billing periods (paid upfront for the whole period) ─────────── */
 const periods = [
-  { key: '3m', label: '3 months', months: 3, discount: 0 },
-  { key: '6m', label: '6 months', months: 6, discount: 0 },
-  { key: '1y', label: '1 year', months: 12, discount: 0 },
+  { key: '3m', label: '3 months', months: 3, discount: 0, badge: '' },
+  { key: '6m', label: '6 months', months: 6, discount: 5, badge: 'Save 5%' },
+  { key: '1y', label: '1 year', months: 12, discount: 100 / 6, badge: '2 months free' }, // pay for 10 of 12 months
 ] as const;
 
 type Period = (typeof periods)[number];
@@ -170,7 +170,10 @@ function PayModal({
               {plan.name} Plan · {period.label}
             </p>
             <p className="text-3xl font-black" style={{ color: '#1B2875' }}>GHS {total.toLocaleString()}<span className="text-base font-semibold text-slate-400"> / {period.label}</span></p>
-            <p className="text-xs text-slate-400 mt-1">Works out to GHS {Math.round(total / period.months)}/month</p>
+            <p className="text-xs text-slate-400 mt-1">
+              Works out to GHS {Math.round(total / period.months)}/month
+              {period.badge && <span className="font-bold" style={{ color: '#2BA898' }}> · {period.badge}</span>}
+            </p>
           </div>
           <button onClick={onClose} className="p-2 rounded-full hover:bg-slate-100 transition-colors">
             <X className="w-5 h-5 text-slate-400" />
@@ -308,9 +311,9 @@ export default function Pricing() {
                   ? { background: '#1B2875', color: '#ffffff' }
                   : { color: 'rgba(15,23,42,0.55)' }}>
                 {p.label}
-                {p.discount > 0 && (
+                {p.badge && (
                   <span className="ml-1.5 text-xs" style={{ color: period.key === p.key ? '#FCD34D' : '#2BA898' }}>
-                    −{p.discount}%
+                    {p.badge}
                   </span>
                 )}
               </button>
@@ -362,6 +365,9 @@ export default function Pricing() {
                 <p className="text-xs mb-2"
                   style={{ color: plan.textLight ? 'rgba(255,255,255,0.5)' : 'rgba(15,23,42,0.4)' }}>
                   GHS {Math.round(periodPrice(plan.monthly, period) / period.months)}/month, billed {period.months === 12 ? 'yearly' : `every ${period.months} months`}
+                  {period.discount > 0 && (
+                    <> · <s>GHS {(plan.monthly * period.months).toLocaleString()}</s></>
+                  )}
                 </p>
                 <p className="text-sm mb-6"
                   style={{ color: plan.textLight ? 'rgba(255,255,255,0.6)' : 'rgba(15,23,42,0.5)' }}>
