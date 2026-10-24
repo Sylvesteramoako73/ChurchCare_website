@@ -39,7 +39,7 @@ export default function Footer() {
                 { label: 'Features', href: '#features' },
                 { label: 'Pricing', href: '#pricing' },
                 { label: 'FAQs', href: '#faqs' },
-                { label: 'Live Demo', href: 'https://chms-app.netlify.app' },
+                { label: 'Live Demo', href: 'https://app.churchcare.online' },
               ].map(l => (
                 <li key={l.label}>
                   <a href={l.href}

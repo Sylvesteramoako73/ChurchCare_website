@@ -41,7 +41,7 @@ export default function CTA() {
                 style={{ background: '#ffffff', color: '#1B2875' }}>
                 See pricing plans <ArrowRight className="w-4 h-4" />
               </a>
-              <a href="https://chms-app.netlify.app" target="_blank" rel="noreferrer"
+              <a href="https://app.churchcare.online" target="_blank" rel="noreferrer"
                 className="inline-flex items-center px-8 py-4 rounded-full font-bold text-sm border transition-all"
                 style={{ color: 'rgba(255,255,255,0.85)', borderColor: 'rgba(255,255,255,0.3)' }}
                 onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(255,255,255,0.1)'; }}

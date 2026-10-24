@@ -14,7 +14,7 @@ export default function FloatingDemo() {
     <AnimatePresence>
       {visible && (
         <motion.a
-          href="https://chms-app.netlify.app"
+          href="https://app.churchcare.online"
           target="_blank"
           rel="noreferrer"
           initial={{ opacity: 0, y: 20 }}

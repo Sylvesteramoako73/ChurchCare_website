@@ -137,7 +137,7 @@ export default function Hero() {
                 style={{ background: '#1B2875', boxShadow: '0 8px 24px rgba(27,40,117,0.25)' }}>
                 Get started free <ArrowRight className="w-4 h-4" />
               </a>
-              <a href="https://chms-app.netlify.app" target="_blank" rel="noreferrer"
+              <a href="https://app.churchcare.online" target="_blank" rel="noreferrer"
                 className="flex items-center gap-3 font-semibold text-base transition-colors"
                 style={{ color: 'rgba(15,23,42,0.55)' }}
                 onMouseEnter={e => (e.currentTarget.style.color = '#1B2875')}

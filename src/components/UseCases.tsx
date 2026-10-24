@@ -126,7 +126,7 @@ export default function UseCases() {
                       style={{ background: 'linear-gradient(135deg, #9b5de5, #7c3aed)' }}>
                       Get started
                     </a>
-                    <a href="https://chms-app.netlify.app" target="_blank" rel="noreferrer"
+                    <a href="https://app.churchcare.online" target="_blank" rel="noreferrer"
                       className="text-sm font-medium hover:underline"
                       style={{ color: '#9b5de5' }}>
                       View live demo →

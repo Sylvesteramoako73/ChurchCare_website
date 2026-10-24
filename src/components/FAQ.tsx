@@ -10,7 +10,7 @@ const faqs = [
   { q: 'Can multiple staff members use it?', a: 'Yes. You can invite your entire team and assign role-based access — Administrators, Pastors, Department Heads, and Data Entry staff each get the right level of access.' },
   { q: 'How does the WhatsApp messaging work?', a: 'Faith ChurchCare connects to a WhatsApp gateway that lets you send bulk messages directly to your congregation. You can also set up automated birthday and church anniversary greetings.' },
   { q: "Is my church's data safe?", a: "Yes. All data is stored securely in Supabase (backed by AWS), encrypted at rest and in transit. Only your authorised team members can access your church's data." },
-  { q: 'Can I try it before paying?', a: 'Yes — you can view a full live demo of the app at chms-app.netlify.app before subscribing. All features are visible in the demo.' },
+  { q: 'Can I try it before paying?', a: 'Yes — you can view a full live demo of the app at app.churchcare.online before subscribing. All features are visible in the demo.' },
 ];
 
 export default function FAQ() {

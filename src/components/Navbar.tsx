@@ -52,7 +52,7 @@ export default function Navbar() {
         </nav>
 
         <div className="hidden md:flex items-center gap-4">
-          <a href="https://chms-app.netlify.app" target="_blank" rel="noreferrer"
+          <a href="https://app.churchcare.online" target="_blank" rel="noreferrer"
             className="text-sm font-semibold transition-colors"
             style={{ color: 'rgba(15,23,42,0.55)' }}
             onMouseEnter={e => (e.currentTarget.style.color = '#1B2875')}

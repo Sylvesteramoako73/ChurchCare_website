@@ -221,7 +221,7 @@ export default function Screenshots() {
             <div className="w-3 h-3 rounded-full bg-green-400" />
             <div className="flex-1 mx-4">
               <div className="bg-white rounded-md px-3 py-1 text-xs text-gray-400 flex items-center gap-1 max-w-xs mx-auto">
-                <span>🔒</span> chms-app.netlify.app
+                <span>🔒</span> app.churchcare.online
               </div>
             </div>
           </div>
@@ -273,7 +273,7 @@ export default function Screenshots() {
           className="text-center text-sm text-gray-400 mt-5"
         >
           Want to explore it yourself?{' '}
-          <a href="https://chms-app.netlify.app" target="_blank" rel="noreferrer"
+          <a href="https://app.churchcare.online" target="_blank" rel="noreferrer"
             className="font-semibold hover:underline" style={{ color: '#9b5de5' }}>
             View the full live demo →
           </a>
