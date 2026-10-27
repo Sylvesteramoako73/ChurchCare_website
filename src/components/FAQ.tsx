@@ -1,45 +1,44 @@
 import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import Breadcrumbs from './Breadcrumbs';
+import { motion } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
+import { Link } from 'react-router';
+import { faqs as allFaqs } from '../data/faqs';
 
-const faqs = [
-  { q: 'What is Faith ChurchCare?', a: 'Faith ChurchCare is a complete cloud-based church management software designed for African churches. It handles members, attendance, giving, WhatsApp/SMS communication, visitor follow-up, pastoral care, reports, and more — all in one platform.' },
-  { q: 'How much does Faith ChurchCare cost?', a: 'Faith ChurchCare offers three plans: Starter at GHS 200/month (up to 150 members), Growth at GHS 350/month (up to 500 members), and Pro at GHS 500/month (unlimited members). Plans are paid every 3 months, 6 months or once a year — for example, Starter is GHS 600 for 3 months. Pay for 6 months and save 5%, or pay yearly and get 2 months free. No hidden fees.' },
-  { q: "What's included in each plan?", a: 'The Starter plan covers member management, attendance, giving records, basic reports, and 2 admins. Growth adds bulk WhatsApp & SMS, events, visitor follow-up, PDF receipts, and 10 admins. Pro adds multi-campus support, role-based access, advanced analytics, and unlimited admins.' },
-  { q: 'Do I need technical knowledge to use it?', a: 'Not at all. Faith ChurchCare is designed to be intuitive. If you can use WhatsApp or a smartphone, you can use Faith ChurchCare. Setup takes less than 10 minutes and we provide onboarding guidance.' },
-  { q: 'Can multiple staff members use it?', a: 'Yes. You can invite your entire team and assign role-based access — Administrators, Pastors, Department Heads, and Data Entry staff each get the right level of access.' },
-  { q: 'How does the WhatsApp messaging work?', a: 'Faith ChurchCare connects to a WhatsApp gateway that lets you send bulk messages directly to your congregation. You can also set up automated birthday and church anniversary greetings.' },
-  { q: "Is my church's data safe?", a: "Yes. All data is stored securely in Supabase (backed by AWS), encrypted at rest and in transit. Only your authorised team members can access your church's data." },
-  { q: 'Can I try it before paying?', a: 'Yes — every church gets a 14-day free trial with full access. Sign up at app.churchcare.online, no payment needed to start. When the trial ends, choose a plan to keep using it; your data stays safe. You can also explore the live demo first.' },
-];
 
-export default function FAQ() {
+
+const MotionLink = motion.create(Link);
+
+export default function FAQ({ limit, asPage = false }: { limit?: number; asPage?: boolean }) {
   const [open, setOpen] = useState<number | null>(0);
+  const faqs = limit ? allFaqs.slice(0, limit) : allFaqs;
+  const Heading = asPage ? motion.h1 : motion.h2;
 
   return (
-    <section id="faqs" className="py-28" style={{ background: '#F8FAFC' }}>
+    <section id="faqs" className={asPage ? 'pt-28 pb-28' : 'py-28'} style={{ background: '#F8FAFC' }}>
       <div className="max-w-7xl mx-auto px-6">
+        {asPage && <Breadcrumbs trail={[{ name: 'FAQs', path: '/faq' }]} />}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-16">
           <div>
             <motion.p
-              initial={{ opacity: 0, y: 14 }}
+              initial={asPage ? false : { opacity: 0, y: 14 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               className="text-sm font-bold uppercase tracking-widest mb-4"
               style={{ color: '#2BA898' }}>
               FAQs
             </motion.p>
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
+            <Heading
+              initial={asPage ? false : { opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.1 }}
               className="text-4xl font-black leading-tight mb-5"
               style={{ color: '#0F172A' }}>
-              Common questions
-            </motion.h2>
+              {asPage ? 'Frequently asked questions' : 'Common questions'}
+            </Heading>
             <motion.p
-              initial={{ opacity: 0, y: 14 }}
+              initial={asPage ? false : { opacity: 0, y: 14 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.18 }}
@@ -47,18 +46,23 @@ export default function FAQ() {
               style={{ color: 'rgba(15,23,42,0.55)' }}>
               Can't find the answer you're looking for? Reach out to our team directly.
             </motion.p>
-            <motion.a
-              initial={{ opacity: 0, y: 14 }}
+            <MotionLink
+              initial={asPage ? false : { opacity: 0, y: 14 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: 0.26 }}
-              href="#contact"
+              to="/contact"
               className="inline-flex items-center gap-2 px-6 py-3 rounded-full font-bold text-sm border transition-all"
               style={{ color: '#2BA898', borderColor: 'rgba(43,168,152,0.35)' }}
               onMouseEnter={e => { (e.currentTarget as HTMLElement).style.background = 'rgba(43,168,152,0.07)'; }}
               onMouseLeave={e => { (e.currentTarget as HTMLElement).style.background = 'transparent'; }}>
               Contact us →
-            </motion.a>
+            </MotionLink>
+            {limit && (
+              <Link to="/faq" className="block mt-6 text-sm font-semibold hover:underline" style={{ color: '#1B2875' }}>
+                See all {allFaqs.length} questions
+              </Link>
+            )}
           </div>
 
           <div className="lg:col-span-2">
@@ -66,12 +70,15 @@ export default function FAQ() {
               {faqs.map((faq, i) => (
                 <motion.div
                   key={i}
-                  initial={{ opacity: 0, y: 10 }}
+                  initial={asPage ? false : { opacity: 0, y: 10 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: i * 0.04 }}
                   style={{ borderBottom: '1px solid rgba(0,0,0,0.08)' }}>
+                  <h3 className="m-0">
                   <button
+                    aria-expanded={open === i}
+                    aria-controls={`faq-answer-${i}`}
                     className="w-full flex items-center justify-between gap-4 py-5 text-left"
                     onClick={() => setOpen(open === i ? null : i)}>
                     <span className="font-semibold text-sm" style={{ color: open === i ? '#0F172A' : 'rgba(15,23,42,0.7)' }}>
@@ -86,20 +93,18 @@ export default function FAQ() {
                         style={{ color: open === i ? '#fff' : 'rgba(15,23,42,0.45)' }} />
                     </div>
                   </button>
-                  <AnimatePresence>
-                    {open === i && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.25 }}
-                        className="overflow-hidden">
-                        <p className="pb-5 text-sm leading-relaxed pr-12" style={{ color: 'rgba(15,23,42,0.6)' }}>
-                          {faq.a}
-                        </p>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                  </h3>
+                  <div
+                  id={`faq-answer-${i}`}
+                  role="region"
+                  className="grid transition-all duration-300"
+                  style={{ gridTemplateRows: open === i ? '1fr' : '0fr', opacity: open === i ? 1 : 0 }}>
+                  <div className="overflow-hidden">
+                    <p className="pb-5 text-sm leading-relaxed pr-12" style={{ color: 'rgba(15,23,42,0.6)' }}>
+                      {faq.a}
+                    </p>
+                  </div>
+                </div>
                 </motion.div>
               ))}
             </div>

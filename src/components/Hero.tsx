@@ -88,50 +88,36 @@ export default function Hero() {
       <div className="max-w-7xl mx-auto px-6 w-full py-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           <div>
-            <motion.div
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold mb-8 border"
-              style={{ background: 'rgba(43,168,152,0.08)', color: C.teal, borderColor: 'rgba(43,168,152,0.25)' }}>
+            <div
+              className="cc-rise inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold mb-8 border"
+              style={{ animationDelay: '0s', background: 'rgba(43,168,152,0.08)', color: C.teal, borderColor: 'rgba(43,168,152,0.25)' }}>
               <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: C.teal }} />
               Trusted by 120+ churches in Ghana
-            </motion.div>
+            </div>
 
-            <motion.h1
-              initial={{ opacity: 0, y: 24 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="text-5xl sm:text-6xl lg:text-[3.8rem] font-black leading-[1.06] tracking-tight mb-4"
-              style={{ color: C.navy }}>
-              The complete church
+            <h1
+              className="cc-rise text-5xl sm:text-6xl lg:text-[3.8rem] font-black leading-[1.06] tracking-tight mb-4"
+              style={{ animationDelay: '0.1s', color: C.navy }}>
+              The complete church{" "}
               <span className="block" style={{ color: C.teal }}>management platform.</span>
-            </motion.h1>
+            </h1>
 
-            <motion.p
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.15 }}
-              className="text-xs font-bold uppercase tracking-widest mb-6"
-              style={{ color: C.purple }}>
+            <p
+              className="cc-rise text-xs font-bold uppercase tracking-widest mb-6"
+              style={{ animationDelay: '0.15s', color: C.purple }}>
               Manage. Serve. Grow. Together.
-            </motion.p>
+            </p>
 
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2 }}
-              className="text-lg leading-relaxed mb-10 max-w-lg"
-              style={{ color: C.muted }}>
+            <p
+              className="cc-rise text-lg leading-relaxed mb-10 max-w-lg"
+              style={{ animationDelay: '0.2s', color: C.muted }}>
               Manage members, track giving, send WhatsApp broadcasts, and generate reports —
               all in one simple platform built for African churches.
               Starting at <span className="font-bold" style={{ color: C.navy }}>GHS 200/month</span>, billed every 3 months.
-            </motion.p>
+            </p>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.32 }}
-              className="flex items-center gap-4 flex-wrap mb-14">
+            <div
+              className="cc-rise flex items-center gap-4 flex-wrap mb-14" style={{ animationDelay: '0.32s' }}>
               <a href="https://app.churchcare.online" target="_blank" rel="noreferrer"
                 className="inline-flex items-center gap-2 px-8 py-4 rounded-full text-white font-bold text-base transition-opacity hover:opacity-90"
                 style={{ background: '#1B2875', boxShadow: '0 8px 24px rgba(27,40,117,0.25)' }}>
@@ -148,14 +134,11 @@ export default function Hero() {
                 </div>
                 Watch demo
               </a>
-            </motion.div>
+            </div>
 
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.5 }}
-              className="flex items-center gap-8 pt-8 border-t"
-              style={{ borderColor: C.border }}>
+            <div
+              className="cc-fade flex items-center gap-8 pt-8 border-t"
+              style={{ animationDelay: '0.5s', borderColor: C.border }}>
               {[
                 { val: '120+', label: 'Churches' },
                 { val: '15K+', label: 'Members managed' },
@@ -166,7 +149,7 @@ export default function Hero() {
                   <p className="text-xs mt-0.5" style={{ color: C.muted }}>{s.label}</p>
                 </div>
               ))}
-            </motion.div>
+            </div>
           </div>
 
           <motion.div

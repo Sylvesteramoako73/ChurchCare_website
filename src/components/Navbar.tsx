@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
+import { Link, NavLink } from 'react-router';
 import { LogoIcon } from './Logo';
 
 const links = [
-  { label: 'Features', href: '#features' },
-  { label: 'Pricing', href: '#pricing' },
-  { label: 'FAQs', href: '#faqs' },
-  { label: 'Contact', href: '#contact' },
+  { label: 'Features', href: '/features' },
+  { label: 'Pricing', href: '/pricing' },
+  { label: 'Blog', href: '/blog' },
+  { label: 'FAQs', href: '/faq' },
+  { label: 'Contact', href: '/contact' },
 ];
 
 export default function Navbar() {
@@ -30,24 +32,22 @@ export default function Navbar() {
       }}
     >
       <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
-        <a href="#" className="flex items-center gap-2.5">
+        <Link to="/" className="flex items-center gap-2.5" aria-label="Faith ChurchCare home">
           <LogoIcon size={34} />
           <div className="flex flex-col leading-none">
             <span className="font-black text-lg tracking-tight" style={{ color: '#011F4E' }}>
               Faith <span style={{ color: '#011F4E' }}>Church</span><span style={{ color: '#C98A2E' }}>Care</span>
             </span>
           </div>
-        </a>
+        </Link>
 
-        <nav className="hidden md:flex items-center gap-8">
+        <nav aria-label="Main" className="hidden md:flex items-center gap-8">
           {links.map(l => (
-            <a key={l.label} href={l.href}
-              className="text-sm font-medium transition-colors"
-              style={{ color: 'rgba(15,23,42,0.6)' }}
-              onMouseEnter={e => (e.currentTarget.style.color = '#1B2875')}
-              onMouseLeave={e => (e.currentTarget.style.color = 'rgba(15,23,42,0.6)')}>
+            <NavLink key={l.label} to={l.href}
+              className={({ isActive }) =>
+                `text-sm transition-colors hover:text-[#1B2875] ${isActive ? 'font-semibold text-[#1B2875]' : 'font-medium text-slate-900/60'}`}>
               {l.label}
-            </a>
+            </NavLink>
           ))}
         </nav>
 
@@ -59,14 +59,15 @@ export default function Navbar() {
             onMouseLeave={e => (e.currentTarget.style.color = 'rgba(15,23,42,0.55)')}>
             Sign in
           </a>
-          <a href="#pricing"
+          <Link to="/pricing"
             className="px-5 py-2.5 rounded-full text-white text-sm font-bold transition-opacity hover:opacity-90"
             style={{ background: '#1B2875' }}>
             Get started
-          </a>
+          </Link>
         </div>
 
-        <button className="md:hidden p-2" style={{ color: '#1B2875' }} onClick={() => setOpen(o => !o)}>
+        <button className="md:hidden p-2" style={{ color: '#1B2875' }} onClick={() => setOpen(o => !o)}
+          aria-label={open ? 'Close menu' : 'Open menu'} aria-expanded={open}>
           {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
       </div>
@@ -81,16 +82,16 @@ export default function Navbar() {
             className="md:hidden px-6 pb-6">
             <nav className="flex flex-col gap-4 pt-4">
               {links.map(l => (
-                <a key={l.label} href={l.href} onClick={() => setOpen(false)}
+                <Link key={l.label} to={l.href} onClick={() => setOpen(false)}
                   className="text-sm font-medium py-1" style={{ color: 'rgba(15,23,42,0.7)' }}>
                   {l.label}
-                </a>
+                </Link>
               ))}
-              <a href="#pricing"
+              <Link to="/pricing" onClick={() => setOpen(false)}
                 className="text-center px-6 py-3 rounded-full text-white text-sm font-bold mt-2"
                 style={{ background: '#1B2875' }}>
-                Get started — from GHS 600 / 3 months
-              </a>
+                Get started from GHS 600 / 3 months
+              </Link>
             </nav>
           </motion.div>
         )}

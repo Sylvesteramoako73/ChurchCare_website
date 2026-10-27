@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion';
+import { Link } from 'react-router';
 
 export default function Community() {
   return (
@@ -15,7 +16,7 @@ export default function Community() {
               Community
             </p>
             <h2 className="text-4xl sm:text-5xl font-black leading-tight mb-6" style={{ color: '#0F172A' }}>
-              Serving the faith
+              Serving the faith{" "}
               <span className="block" style={{ color: '#2BA898' }}>communities of Ghana.</span>
             </h2>
             <p className="text-lg leading-relaxed mb-10" style={{ color: 'rgba(15,23,42,0.55)' }}>
@@ -68,15 +69,23 @@ export default function Community() {
             className="grid grid-cols-2 gap-4">
             <div className="rounded-2xl overflow-hidden col-span-2" style={{ height: 240, background: '#E2E8F0' }}>
               <img
-                src="/church-service.jpg"
-                alt="Church congregation"
+                src="/images/church-service.webp"
+                alt="A preacher speaking from the pulpit to a full church auditorium"
+                width={700}
+                height={400}
+                loading="lazy"
+                decoding="async"
                 className="w-full h-full object-cover"
               />
             </div>
             <div className="rounded-2xl overflow-hidden" style={{ height: 180, background: '#E2E8F0' }}>
               <img
-                src="/church-congregation.jpg"
-                alt="Church community"
+                src="/images/church-congregation.webp"
+                alt="A congregation in colourful African print seated during a church service"
+                width={700}
+                height={367}
+                loading="lazy"
+                decoding="async"
                 className="w-full h-full object-cover"
               />
             </div>
@@ -86,11 +95,11 @@ export default function Community() {
                 <p className="text-4xl font-black" style={{ color: '#1B2875' }}>GHS 200</p>
                 <p className="text-sm mt-1" style={{ color: 'rgba(15,23,42,0.5)' }}>per month</p>
                 <p className="text-xs mt-1" style={{ color: '#2BA898' }}>No contracts · Cancel anytime</p>
-                <a href="#pricing"
+                <Link to="/pricing"
                   className="mt-4 inline-block px-5 py-2 rounded-full text-xs font-black transition-colors"
                   style={{ background: '#1B2875', color: '#fff' }}>
                   See plans →
-                </a>
+                </Link>
               </div>
             </div>
           </motion.div>

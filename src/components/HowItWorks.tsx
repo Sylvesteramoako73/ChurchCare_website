@@ -74,12 +74,13 @@ export default function HowItWorks() {
           transition={{ delay: 0.4 }}
           className="grid grid-cols-3 gap-4">
           {[
-            '/church-worship.jpg',
-            '/church-service.jpg',
-            '/church-congregation.jpg',
-          ].map((src, i) => (
-            <div key={i} className="rounded-2xl overflow-hidden" style={{ height: 200, background: '#E2E8F0' }}>
-              <img src={src} alt="Church community" className="w-full h-full object-cover" />
+            { src: '/images/church-worship.webp', alt: 'Church members standing with hands raised in worship', w: 700, h: 443 },
+            { src: '/images/church-service.webp', alt: 'A preacher speaking from the pulpit to a full church auditorium', w: 700, h: 400 },
+            { src: '/images/church-congregation.webp', alt: 'A congregation in colourful African print seated during a church service', w: 700, h: 367 },
+          ].map(img => (
+            <div key={img.src} className="rounded-2xl overflow-hidden" style={{ height: 200, background: '#E2E8F0' }}>
+              <img src={img.src} alt={img.alt} width={img.w} height={img.h} loading="lazy" decoding="async"
+                className="w-full h-full object-cover" />
             </div>
           ))}
         </motion.div>
