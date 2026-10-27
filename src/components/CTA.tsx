@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
+import { Link } from 'react-router';
 
 export default function CTA() {
   return (
@@ -15,8 +16,12 @@ export default function CTA() {
           {/* Photo bg */}
           <div className="absolute inset-0">
             <img
-              src="/church-worship.jpg"
-              alt="Church community"
+              src="/images/church-worship.webp"
+              alt=""
+              width={700}
+              height={443}
+              loading="lazy"
+              decoding="async"
               className="w-full h-full object-cover opacity-[0.07]"
             />
           </div>
@@ -36,11 +41,11 @@ export default function CTA() {
               Cancel anytime. No contracts. Start with a 14-day free trial, then plans from GHS 600 every 3 months.
             </p>
             <div className="flex flex-wrap gap-4">
-              <a href="#pricing"
+              <Link to="/pricing"
                 className="inline-flex items-center gap-2 px-8 py-4 rounded-full font-black text-sm transition-opacity hover:opacity-90 shadow-lg"
                 style={{ background: '#ffffff', color: '#1B2875' }}>
                 See pricing plans <ArrowRight className="w-4 h-4" />
-              </a>
+              </Link>
               <a href="https://app.churchcare.online" target="_blank" rel="noreferrer"
                 className="inline-flex items-center px-8 py-4 rounded-full font-bold text-sm border transition-all"
                 style={{ color: 'rgba(255,255,255,0.85)', borderColor: 'rgba(255,255,255,0.3)' }}

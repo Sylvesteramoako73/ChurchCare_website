@@ -123,7 +123,7 @@ export default function AppDownload() {
             </div>
 
             <h2 className="text-4xl sm:text-5xl font-black text-white leading-tight mb-6">
-              Manage your church
+              Manage your church{" "}
               <span className="block" style={{ color: '#A78BFA' }}>from your pocket.</span>
             </h2>
 

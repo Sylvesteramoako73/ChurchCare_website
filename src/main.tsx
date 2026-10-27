@@ -1,10 +1,22 @@
 import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
+import { createRoot, hydrateRoot } from 'react-dom/client'
+import { BrowserRouter } from 'react-router'
+import '@fontsource-variable/inter/wght.css'
 import './index.css'
 import App from './App.tsx'
+import { initLinkTracking } from './lib/analytics'
 
-createRoot(document.getElementById('root')!).render(
+const container = document.getElementById('root')!
+const app = (
   <StrictMode>
-    <App />
-  </StrictMode>,
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </StrictMode>
 )
+
+// Prerendered pages arrive with HTML already inside #root, so hydrate them. The dev server sends an empty root.
+if (container.firstElementChild) hydrateRoot(container, app)
+else createRoot(container).render(app)
+
+initLinkTracking()

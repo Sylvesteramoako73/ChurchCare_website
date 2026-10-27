@@ -1,8 +1,11 @@
 import { useState } from 'react';
+import Breadcrumbs from './Breadcrumbs';
 import { motion } from 'framer-motion';
 import { CheckCircle, Phone, Mail, MapPin } from 'lucide-react';
+import { track } from '../lib/analytics';
 
-export default function Contact() {
+export default function Contact({ asPage = false }: { asPage?: boolean }) {
+  const Heading = asPage ? 'h1' : 'h2';
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({ name: '', church: '', phone: '', message: '' });
@@ -11,11 +14,12 @@ export default function Contact() {
     e.preventDefault();
     setLoading(true);
     try {
-      await fetch('https://formsubmit.co/ajax/info@beenhanced.co', {
+      const res = await fetch('https://formsubmit.co/ajax/info@beenhanced.co', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({ ...form, _subject: `Faith ChurchCare enquiry from ${form.church}` }),
       });
+      if (res.ok) track('generate_lead', { form_name: 'contact', page_path: window.location.pathname });
     } catch { /* show success regardless */ }
     setLoading(false);
     setSent(true);
@@ -33,21 +37,22 @@ export default function Contact() {
   };
 
   return (
-    <section id="contact" className="py-28" style={{ background: '#FFFFFF' }}>
+    <section id="contact" className={asPage ? 'pt-28 pb-28' : 'py-28'} style={{ background: '#FFFFFF' }}>
       <div className="max-w-7xl mx-auto px-6">
+        {asPage && <Breadcrumbs trail={[{ name: 'Contact', path: '/contact' }]} />}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
 
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={asPage ? false : { opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}>
             <p className="text-sm font-bold uppercase tracking-widest mb-4" style={{ color: '#2BA898' }}>
               Get in touch
             </p>
-            <h2 className="text-4xl sm:text-5xl font-black leading-tight mb-6" style={{ color: '#0F172A' }}>
-              Let's talk about
+            <Heading className="text-4xl sm:text-5xl font-black leading-tight mb-6" style={{ color: '#0F172A' }}>
+              Let's talk about{" "}
               <span className="block" style={{ color: '#2BA898' }}>your church.</span>
-            </h2>
+            </Heading>
             <p className="text-lg leading-relaxed mb-10 max-w-sm" style={{ color: 'rgba(15,23,42,0.55)' }}>
               Have a question before subscribing? Want a walkthrough for your leadership team?
               We respond within 24 hours.
@@ -77,15 +82,19 @@ export default function Contact() {
 
             <div className="rounded-2xl overflow-hidden" style={{ height: 180, background: '#E2E8F0' }}>
               <img
-                src="/church-family.jpg"
-                alt="Church community"
+                src="/images/church-family.webp"
+                alt="A Ghanaian church family in matching anniversary print outfits, smiling together"
+                width={1200}
+                height={800}
+                loading="lazy"
+                decoding="async"
                 className="w-full h-full object-cover"
               />
             </div>
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, y: 16 }}
+            initial={asPage ? false : { opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.15 }}>

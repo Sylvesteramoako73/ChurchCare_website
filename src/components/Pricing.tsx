@@ -1,3 +1,4 @@
+import Breadcrumbs from './Breadcrumbs';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Check, X } from 'lucide-react';
 import { useState } from 'react';
@@ -25,84 +26,12 @@ const PAYSTACK_KEY =
   (import.meta.env.VITE_PAYSTACK_PUBLIC_KEY as string | undefined) ||
   'pk_live_5166af2bfcf7459a95957a7a4d2592c76912ca40';
 
-/* ── Billing periods (paid upfront for the whole period) ─────────── */
-const periods = [
-  { key: '3m', label: '3 months', months: 3, discount: 0, badge: '' },
-  { key: '6m', label: '6 months', months: 6, discount: 5, badge: 'Save 5%' },
-  { key: '1y', label: '1 year', months: 12, discount: 100 / 6, badge: '2 months free' }, // pay for 10 of 12 months
-] as const;
+import { periods, periodPrice, plans, type Period, type Plan } from '../data/plans';
+import { track } from '../lib/analytics';
 
-type Period = (typeof periods)[number];
-
-/** Total charged for a plan over a billing period, in GHS */
-const periodPrice = (monthly: number, period: Period) =>
-  Math.round(monthly * period.months * (1 - period.discount / 100));
-
-/* ── Plan definitions ─────────────────────────────────────────────── */
-const plans = [
-  {
-    name: 'Starter',
-    monthly: 200,
-    desc: 'Perfect for small churches getting organised.',
-    color: '#2BA898',
-    headerBg: '#FFFFFF',
-    featureBg: '#F8FAFC',
-    textLight: false,
-    popular: false,
-    features: [
-      'Up to 150 members',
-      'Member profiles & attendance',
-      'Giving & tithe records',
-      'Basic PDF reports',
-      'Event management',
-      'Visitor follow-up tracker',
-      '2 admin accounts',
-      'Email support',
-    ],
-  },
-  {
-    name: 'Growth',
-    monthly: 350,
-    desc: 'For growing churches that need more reach.',
-    color: '#ffffff',
-    headerBg: '#1B2875',
-    featureBg: '#EEF2FF',
-    textLight: true,
-    popular: true,
-    features: [
-      'Up to 500 members',
-      'Everything in Starter',
-      'Bulk WhatsApp & SMS messaging',
-      'Auto birthday & anniversary greetings',
-      'PDF receipts & certificates',
-      'Pledge & fundraising tracking',
-      'Prayer & pastoral care',
-      '10 admin accounts',
-      'WhatsApp support',
-    ],
-  },
-  {
-    name: 'Pro',
-    monthly: 500,
-    desc: 'Unlimited scale for large & multi-campus churches.',
-    color: '#7B4FBE',
-    headerBg: '#FFFFFF',
-    featureBg: '#F8FAFC',
-    textLight: false,
-    popular: false,
-    features: [
-      'Unlimited members',
-      'Everything in Growth',
-      'Multi-campus / branch management',
-      'Role-based access control',
-      'Advanced analytics dashboard',
-      'Volunteer management',
-      'Audit log & data export',
-      'Unlimited admin accounts',
-      'Priority support',
-    ],
-  },
-];
+/** Unique Paystack reference, e.g. FCC-GROWTH-6M-1730000000000 */
+const paymentRef = (plan: Plan, period: Period) =>
+  `FCC-${plan.name.toUpperCase()}-${period.key.toUpperCase()}-${Date.now()}`;
 
 /* ── Email-capture modal ──────────────────────────────────────────── */
 function PayModal({
@@ -110,7 +39,7 @@ function PayModal({
   period,
   onClose,
 }: {
-  plan: (typeof plans)[0];
+  plan: Plan;
   period: Period;
   onClose: () => void;
 }) {
@@ -130,17 +59,21 @@ function PayModal({
     setLoading(true);
     setError('');
 
+    const item = { item_name: `ChurchCare ${plan.name}`, item_variant: period.label, price: total, quantity: 1 };
+    track('begin_checkout', { currency: 'GHS', value: total, items: [item] });
+
     const handler = window.PaystackPop.setup({
       key: PAYSTACK_KEY,
       email,
       amount: total * 100, // convert GHS → pesewas
       currency: 'GHS',
-      ref: `FCC-${plan.name.toUpperCase()}-${period.key.toUpperCase()}-${Date.now()}`,
+      ref: paymentRef(plan, period),
       // The app's webhook reads plan + months to activate the church whose admin uses this email
       metadata: { plan: plan.name, billing_period: period.label, months: period.months, church_name: name, source: 'website' },
-      callback() {
+      callback(res) {
         setLoading(false);
         setPaid(true);
+        track('purchase', { transaction_id: res.reference, currency: 'GHS', value: total, items: [item] });
       },
       onClose() {
         setLoading(false);
@@ -261,36 +194,38 @@ function PayModal({
 }
 
 /* ── Main section ─────────────────────────────────────────────────── */
-export default function Pricing() {
-  const [activePlan, setActivePlan] = useState<(typeof plans)[0] | null>(null);
+export default function Pricing({ asPage = false }: { asPage?: boolean }) {
+  const Heading = asPage ? motion.h1 : motion.h2;
+  const [activePlan, setActivePlan] = useState<Plan | null>(null);
   const [period, setPeriod] = useState<Period>(periods[0]);
 
   return (
-    <section id="pricing" className="py-28" style={{ background: '#F8FAFC' }}>
+    <section id="pricing" className={asPage ? 'pt-28 pb-28' : 'py-28'} style={{ background: '#F8FAFC' }}>
       <div className="max-w-7xl mx-auto px-6">
+        {asPage && <Breadcrumbs trail={[{ name: 'Pricing', path: '/pricing' }]} />}
 
         {/* Heading */}
         <div className="text-center max-w-2xl mx-auto mb-16">
           <motion.p
-            initial={{ opacity: 0, y: 14 }}
+            initial={asPage ? false : { opacity: 0, y: 14 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             className="text-sm font-bold uppercase tracking-widest mb-4"
             style={{ color: '#2BA898' }}>
             Pricing
           </motion.p>
-          <motion.h2
-            initial={{ opacity: 0, y: 20 }}
+          <Heading
+            initial={asPage ? false : { opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
             className="text-4xl sm:text-5xl font-black leading-tight mb-5"
             style={{ color: '#0F172A' }}>
-            Simple plans for every
+            Simple plans for every{" "}
             <span className="block" style={{ color: '#2BA898' }}>size of church.</span>
-          </motion.h2>
+          </Heading>
           <motion.p
-            initial={{ opacity: 0, y: 14 }}
+            initial={asPage ? false : { opacity: 0, y: 14 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.18 }}
@@ -326,7 +261,7 @@ export default function Pricing() {
           {plans.map((plan, i) => (
             <motion.div
               key={plan.name}
-              initial={{ opacity: 0, y: 28 }}
+              initial={asPage ? false : { opacity: 0, y: 28 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.12 }}
@@ -415,7 +350,7 @@ export default function Pricing() {
 
         {/* Footer note */}
         <motion.p
-          initial={{ opacity: 0 }}
+          initial={asPage ? false : { opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ delay: 0.5 }}

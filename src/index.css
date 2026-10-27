@@ -3,7 +3,7 @@
 @layer base {
   html { scroll-behavior: smooth; }
   body {
-    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    font-family: 'Inter Variable', 'Inter', system-ui, -apple-system, sans-serif;
     -webkit-font-smoothing: antialiased;
     margin: 0;
     background: #ffffff;
@@ -16,3 +16,25 @@
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
 }
+
+/* Blog article typography */
+.article-body { color: rgba(15, 23, 42, 0.78); font-size: 1.0625rem; line-height: 1.8; }
+.article-body > * + * { margin-top: 1.25rem; }
+.article-body h2 { color: #0F172A; font-weight: 900; font-size: 1.75rem; line-height: 1.25; margin-top: 3rem; scroll-margin-top: 6rem; }
+.article-body h3 { color: #0F172A; font-weight: 800; font-size: 1.25rem; line-height: 1.35; margin-top: 2.25rem; scroll-margin-top: 6rem; }
+.article-body p:first-child { font-size: 1.1875rem; color: rgba(15, 23, 42, 0.88); }
+.article-body ul, .article-body ol { padding-left: 1.4rem; }
+.article-body ul { list-style: disc; }
+.article-body ol { list-style: decimal; }
+.article-body li + li { margin-top: 0.5rem; }
+.article-body li::marker { color: #2BA898; }
+.article-body strong { color: #0F172A; font-weight: 700; }
+.article-body a { color: #1B2875; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgba(43, 168, 152, 0.6); }
+.article-body a:hover { text-decoration-color: #1B2875; }
+
+/* Above the fold entrance animations in plain CSS, so text is painted before JavaScript loads */
+@keyframes cc-rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes cc-fade { from { opacity: 0; } to { opacity: 1; } }
+.cc-rise { animation: cc-rise 0.55s cubic-bezier(0.22, 0.7, 0.25, 1) both; }
+.cc-fade { animation: cc-fade 0.6s ease-out both; }
+@media (prefers-reduced-motion: reduce) { .cc-rise, .cc-fade { animation: none; } }
