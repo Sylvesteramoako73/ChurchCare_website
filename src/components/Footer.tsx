@@ -28,7 +28,8 @@ const columns: { title: string; links: FooterLink[] }[] = [
     links: [
       { label: 'Blog', href: '/blog' },
       { label: 'Contact us', href: '/contact' },
-      { label: 'info@beenhanced.co', href: 'mailto:info@beenhanced.co' },
+      { label: 'info@churchcare.online', href: 'mailto:info@churchcare.online' },
+      { label: '055 700 1326', href: 'tel:+233557001326' },
     ],
   },
 ];

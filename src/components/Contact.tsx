@@ -3,6 +3,7 @@ import Breadcrumbs from './Breadcrumbs';
 import { motion } from 'framer-motion';
 import { CheckCircle, Phone, Mail, MapPin } from 'lucide-react';
 import { track } from '../lib/analytics';
+import { CONTACT_EMAIL } from '../lib/seo';
 
 export default function Contact({ asPage = false }: { asPage?: boolean }) {
   const Heading = asPage ? 'h1' : 'h2';
@@ -14,7 +15,7 @@ export default function Contact({ asPage = false }: { asPage?: boolean }) {
     e.preventDefault();
     setLoading(true);
     try {
-      const res = await fetch('https://formsubmit.co/ajax/info@beenhanced.co', {
+      const res = await fetch(`https://formsubmit.co/ajax/${CONTACT_EMAIL}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
         body: JSON.stringify({ ...form, _subject: `Faith ChurchCare enquiry from ${form.church}` }),
@@ -60,11 +61,14 @@ export default function Contact({ asPage = false }: { asPage?: boolean }) {
 
             <div className="space-y-3 mb-10">
               {[
-                { Icon: Phone, label: 'WhatsApp / Call', value: '+233 XX XXX XXXX' },
-                { Icon: Mail, label: 'Email', value: 'info@beenhanced.co' },
-                { Icon: MapPin, label: 'Location', value: 'Accra, Ghana 🇬🇭' },
-              ].map(({ Icon, label, value }) => (
-                <div key={label} className="flex items-center gap-4 p-4 rounded-xl border"
+                { Icon: Phone, label: 'WhatsApp / Call', value: '055 700 1326', href: 'https://wa.me/233557001326' },
+                { Icon: Mail, label: 'Email', value: CONTACT_EMAIL, href: `mailto:${CONTACT_EMAIL}` },
+                { Icon: MapPin, label: 'Location', value: 'Accra, Ghana 🇬🇭', href: undefined },
+              ].map(({ Icon, label, value, href }) => {
+                const Box = href ? 'a' : 'div';
+                return (
+                <Box key={label} {...(href ? { href, target: href.startsWith('http') ? '_blank' : undefined, rel: 'noreferrer' } : {})}
+                  className="flex items-center gap-4 p-4 rounded-xl border transition-colors hover:border-[rgba(43,168,152,0.35)]"
                   style={{ background: '#F8FAFC', borderColor: 'rgba(0,0,0,0.07)' }}>
                   <div className="w-10 h-10 rounded-xl flex items-center justify-center shrink-0"
                     style={{ background: 'rgba(43,168,152,0.08)' }}>
@@ -76,8 +80,9 @@ export default function Contact({ asPage = false }: { asPage?: boolean }) {
                     </p>
                     <p className="text-sm font-semibold mt-0.5" style={{ color: '#0F172A' }}>{value}</p>
                   </div>
-                </div>
-              ))}
+                </Box>
+                );
+              })}
             </div>
 
             <div className="rounded-2xl overflow-hidden" style={{ height: 180, background: '#E2E8F0' }}>

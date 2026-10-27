@@ -1,6 +1,8 @@
 export const SITE_URL = 'https://www.churchcare.online';
 export const SITE_NAME = 'Faith ChurchCare';
 export const APP_URL = 'https://app.churchcare.online';
+export const CONTACT_EMAIL = 'info@churchcare.online';
+export const CONTACT_PHONE = '+233557001326';
 export const DEFAULT_IMAGE = `${SITE_URL}/church-congregation.jpg`;
 
 export type JsonLd = Record<string, unknown>;
@@ -33,6 +35,16 @@ export const organizationLd: JsonLd = {
   url: `${SITE_URL}/`,
   logo: `${SITE_URL}/logo-mark.png`,
   areaServed: 'Ghana',
+  email: CONTACT_EMAIL,
+  telephone: CONTACT_PHONE,
+  contactPoint: {
+    '@type': 'ContactPoint',
+    contactType: 'customer support',
+    email: CONTACT_EMAIL,
+    telephone: CONTACT_PHONE,
+    areaServed: 'GH',
+    availableLanguage: ['English'],
+  },
 };
 
 export const websiteLd: JsonLd = {
